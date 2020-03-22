@@ -33,7 +33,7 @@ router.get('/new', auth, async (req, res) => {
   }
 });
 
-router.post('/add', auth, async (req, res) => {
+router.post('/score', auth, async (req, res) => {
   const user = await User.findById(req.user.id).select('-password');
   const { score } = req.body;
   const game = {
