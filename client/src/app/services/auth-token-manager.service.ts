@@ -20,7 +20,7 @@ export class AuthTokenManager {
     return localStorage.getItem(this.authTokenKey);
   }
 
-  isLoggedIn() : boolean {
+  get isLoggedIn() : boolean {
     if (this.getAuthToken())
       return true;
       

@@ -9,7 +9,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  phone: string;
+  email: string;
   password: string;
 
   constructor(private api: ApiService,
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    this.api.login(this.phone, this.password).subscribe(
+    this.api.login(this.email, this.password).subscribe(
       data => {
         if (data.success) {
           this.router.navigateByUrl('/');

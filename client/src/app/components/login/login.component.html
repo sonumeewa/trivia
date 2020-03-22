@@ -9,25 +9,18 @@
       <br>
 
       <div class="form-group">
-        <label>Phone</label>
+        <label>Email</label>
 
-        <input type="text" class="form-control" placeholder="Enter Phone" [(ngModel)]="phone" name="phone" required #phoneField="ngModel">
-        <div *ngIf="phoneField.invalid && (phoneField.dirty || phoneField.touched)" class="text-danger">
-          <div *ngIf="phoneField.errors.required">
-            Phone is required.
+        <input type="text" class="form-control" placeholder="Enter Email" [(ngModel)]="email" name="email" required #emailField="ngModel">
+        <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-danger">
+          <div *ngIf="emailField.errors.required">
+            Email is required.
           </div>
           <br>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col">
-          <label>Password</label>
-        </div>
-        <div class="col-auto small">
-          <a routerLink="/forgotPassword">Forgot Password?</a>
-        </div>
-      </div>
+      <label>Password</label>
 
       <div class="form-group">
         <input type="password" class="form-control" placeholder="Enter Password" [(ngModel)]="password" name="password" required #passwordField="ngModel">
@@ -42,12 +35,6 @@
       <br>
       
       <button class="btn btn-primary btn-block" [disabled]="!loginForm.form.valid">Login</button>
-
-      <br>
-
-      <div class="text-center text-muted">
-        Don't have an account?, <a routerLink="/register">Register</a>
-      </div>
   
       <br>
     </form>

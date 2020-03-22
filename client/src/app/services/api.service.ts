@@ -9,12 +9,16 @@ import { map } from 'rxjs/operators';
 export class ApiService {
   constructor(private authTokenManager: AuthTokenManager) { }
 
-  login(email: string, psw: string): Observable<any> {    
+  login(email: string, password: string): Observable<any> {    
     return this.extractToken(this.authTokenManager
-      .post("/login", {
+      .post("/api/user/login", {
         email,
-        psw
+        password
       }));
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authTokenManager.isLoggedIn;
   }
 
   private extractToken(base: Observable<any>) : Observable<any> {

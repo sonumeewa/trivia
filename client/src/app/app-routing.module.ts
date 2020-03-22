@@ -1,25 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { LoginGuard } from './services/login.guard';
+
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { InterviewComponent } from './interview/interview.component';
+import { NewGameComponent } from './components/new-game/new-game.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: SignupComponent },
-  { path: '', component: HomeComponent },
-  {
-    path: 'interview',
-    children: [
-      { path: 'new', component: InterviewComponent },
-      {
-        path: ':id',
-        component: InterviewComponent
-      }
-    ]
-  }
+  { path: '', component: HomeComponent, canActivate: [LoginGuard] },
+  { path: 'new', component: NewGameComponent, canActivate: [LoginGuard] }
 ];
 
 @NgModule({
