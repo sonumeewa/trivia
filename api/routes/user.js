@@ -52,7 +52,10 @@ router.post(
           expiresIn: 360000
         });
 
-        return res.json(token);
+        return res.json({
+          success: true,
+          token
+        });
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
@@ -68,7 +71,10 @@ router.post(
         expiresIn: 360000
       });
 
-      res.json(token);
+      res.json({
+        success: true,
+        token
+      });
     } catch (err) {
       console.error(err.message);
       res.send(400).json({ msg: 'server error' });
