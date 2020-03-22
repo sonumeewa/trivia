@@ -11,7 +11,7 @@ connectDB();
 app.use('/api/user', userRouter);
 app.use('/api/game', gameRouter);
 
-const port = config.PORT || 3000;
+const port = config.PORT || 5000;
 app.listen(port, () => {
   console.log('Server connected at:', port);
 });
