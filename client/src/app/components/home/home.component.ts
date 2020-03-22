@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthTokenManager } from 'src/app/services/auth-token-manager.service';
-import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -8,23 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  list = [];
 
-  list = []
-
-  constructor(private authTokenManager: AuthTokenManager,
-    private router: Router) {
-      authTokenManager.get('/interviews').subscribe(data => {
-        if (!data.success) {
-          alert('bpoo');
-        }
-        else {
-          console.log(data);
-          this.list = data.list;
-        }
-      });
+  constructor(api: ApiService) {
+    api.getGames().subscribe(data => (this.list = data));
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

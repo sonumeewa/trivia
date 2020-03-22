@@ -7,24 +7,32 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiService {
-  constructor(private authTokenManager: AuthTokenManager) { }
+  constructor(private authTokenManager: AuthTokenManager) {}
 
-  login(email: string, password: string): Observable<any> {    
-    return this.extractToken(this.authTokenManager
-      .post("/api/user/login", {
+  login(email: string, password: string): Observable<any> {
+    return this.extractToken(
+      this.authTokenManager.post('/api/user/login', {
         email,
         password
-      }));
+      })
+    );
+  }
+  getGames(): Observable<any> {
+    return this.authTokenManager.get('/api/user').pipe(
+      map(data => {
+        return data.games;
+      })
+    );
   }
 
   get isLoggedIn(): boolean {
     return this.authTokenManager.isLoggedIn;
   }
 
-  private extractToken(base: Observable<any>) : Observable<any> {
+  private extractToken(base: Observable<any>): Observable<any> {
     return base.pipe(
       map(data => {
-        if (data.success) {          
+        if (data.success) {
           this.authTokenManager.setAuthToken(data.token);
 
           data.token = '';
