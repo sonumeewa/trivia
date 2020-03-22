@@ -1,0 +1,18 @@
+<div *ngFor="let interview of list" class="mb-5 card">
+  <div class="card-body">
+    {{interview.start_time | date}} to {{interview.end_time | date}}<br>
+    <hr>
+    <span class="text-muted">Participants:</span><br>
+    <div *ngFor="let part of interview.participants">
+      {{part.name}}
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-auto">
+        <a routerLink="/interview/{{interview._id}}" class="btn btn-info">Edit</a>
+      </div>
+    </div>
+  </div>
+</div>
