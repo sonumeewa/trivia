@@ -1,30 +1,29 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LoaderService } from './loader.service';
-import { NotificationService } from './notification.service';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError, finalize } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { LoaderService } from "./loader.service";
+import { NotificationService } from "./notification.service";
+import { Observable, throwError } from "rxjs";
+import { retry, catchError, finalize } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthTokenManager {
-  private authTokenKey = 'auth_token';
+  private authTokenKey = "auth_token";
 
-  constructor(
-    private http: HttpClient,
+  constructor(private http: HttpClient,
     private loaderService: LoaderService,
-    private notifications: NotificationService
-  ) {}
+    private notifications: NotificationService) { }
 
-  getAuthToken(): string {
+  getAuthToken() : string {
     return localStorage.getItem(this.authTokenKey);
   }
 
-  get isLoggedIn(): boolean {
-    if (this.getAuthToken()) return true;
-
+  get isLoggedIn() : boolean {
+    if (this.getAuthToken())
+      return true;
+      
     return false;
   }
 
@@ -35,13 +34,14 @@ export class AuthTokenManager {
   setAuthToken(authToken: string) {
     if (!authToken) {
       localStorage.removeItem(this.authTokenKey);
-    } else {
+    }
+    else {
       localStorage.setItem(this.authTokenKey, authToken);
     }
   }
 
   getHeaders() {
-    return { headers: { Authorization: this.getAuthToken() } };
+    return { headers: { Authorization: this.getAuthToken() }};
   }
 
   // ----------- REQUEST ------------------------
@@ -51,66 +51,71 @@ export class AuthTokenManager {
       //retry(2),
       catchError(err => {
         console.log(err);
-
+  
         this.notifications.show('Connection to ther server failed!');
-
+  
         return throwError(err);
       }),
       finalize(() => this.loaderService.hide())
-    );
+    )
   }
 
-  post(url: string, body: any, extra = {}): Observable<any> {
+  post(url: string, body: any, extra = {}) : Observable<any> {
+
     this.loaderService.show();
 
-    if (this.getAuthToken()) {
-      return this.apply(
-        this.http.post(this.makeUrl(url), body, {
+    if (this.getAuthToken())
+    {
+        return this.apply(this.http.post(this.makeUrl(url), body, {
           ...this.getHeaders(),
           ...extra
-        })
-      );
-    } else {
+        }));
+    }
+    else {
       return this.apply(this.http.post(this.makeUrl(url), body));
     }
   }
 
-  patch(url: string, body: any): Observable<any> {
+  patch(url: string, body: any) : Observable<any> {
+
     this.loaderService.show();
 
-    if (this.getAuthToken()) {
-      return this.apply(
-        this.http.patch(this.makeUrl(url), body, this.getHeaders())
-      );
-    } else {
+    if (this.getAuthToken())
+    {
+        return this.apply(this.http.patch(this.makeUrl(url), body, this.getHeaders()));
+    }
+    else {
       return this.apply(this.http.patch(this.makeUrl(url), body));
     }
   }
 
-  get(url: string): Observable<any> {
+  get(url: string) : Observable<any> {
+    
     this.loaderService.show();
 
-    if (this.getAuthToken()) {
-      return this.apply(this.http.get(this.makeUrl(url), this.getHeaders()));
-    } else {
+    if (this.getAuthToken())
+    {
+        return this.apply(this.http.get(this.makeUrl(url), this.getHeaders()));
+    }
+    else {
       return this.apply(this.http.get(this.makeUrl(url)));
     }
   }
 
-  delete(url: string): Observable<any> {
+  delete(url: string) : Observable<any> {
+
     this.loaderService.show();
 
     return this.apply(this.http.delete(this.makeUrl(url), this.getHeaders()));
   }
 
-  fileUpload(url: string, key: string, fileToUpload: File): Observable<any> {
+  fileUpload(url: string, key: string, fileToUpload: File) : Observable<any> {
+
     this.loaderService.show();
 
     const formData = new FormData();
     formData.append(key, fileToUpload, fileToUpload.name);
 
-    return this.apply(
-      this.http.post(this.makeUrl(url), formData, this.getHeaders())
-    );
+    return this.apply(this.http.post(this.makeUrl(url), formData, this.getHeaders()));
   }
 }

@@ -33,15 +33,31 @@ router.get('/new', auth, async (req, res) => {
   }
 });
 
-router.post('/game', auth, async (req, res) => {
-  const user = await (await User.findById(req.user.id)).select('-password');
+router.post('/add', auth, async (req, res) => {
+  const user = await User.findById(req.user.id).select('-password');
   const { score } = req.body;
   const game = {
     date: Date.now(),
     score: score
   };
-  user.games.shift(game);
+  user.games.unshift(game);
   await user.save();
-  res.status(200).json({ msg: 'Updated score' });
+  res.status(200).json({ msg: 'game saved' });
+});
+
+router.post('/list', auth, async (req, res) => {
+  const user = await User.findById(req.user.id).select('-password');
+  res.status(200).json({ success: true, games: user.games });
+});
+
+router.post('/delete', auth, async (req, res) => {
+  const user = await User.findById(req.user.id).select('-password');
+  const game = {
+    date: Date.now(),
+    score: score
+  };
+  user.games.unshift(game);
+  await user.save();
+  res.status(200).json({ msg: 'game saved' });
 });
 module.exports = router;

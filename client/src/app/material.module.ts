@@ -23,7 +23,8 @@ const modules = [
   mat.MatCardModule,
   mat.MatSidenavModule,
   mat.MatButtonModule,
-  mat.MatTooltipModule
+  mat.MatTooltipModule,
+  mat.MatRadioModule
 ]
 
 @NgModule({
